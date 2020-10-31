@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+<title>tic-tac-toe</title>
+
+  <style>
+  body{
+    margin: 0px;
+    margin-top: 10px;
+    background-color:orange;
+    text-align: center;
+      }
+    input {
+      display: inline-block;
+      width: 180px;
+      height: 170px;
+      text-align: center;
+      background-color: white;
+      margin-top: 2px;
+      font-size: 40px;
+      padding: 20px;
+      padding-top: 30px;
+    }
+    button {
+      padding: 28px;
+      font-size: 30px;
+      margin-top: 10px;
+    }
+  </style>
+
+  <script>
+
+  var take=[[0,0,0],[0,0,0],[0,0,0]];
+  var position=[[1,1,1],[1,1,1],[1,1,1]];
+
+  function Play(i,j){
+
+        if(take[i][j]!=0){
+             return 0;
+        }else{
+
+             take[i][j]=1;
+             num1=(i*3+j+1)+"";
+             document.getElementById(num1).value="X";
+
+             }
+             moveai();
+        }
+
+  function findPosition(){
+
+        for(var i=0;i<3;i++){
+             for(var j=0;j<3;j++){
+                 if(take[i][j]!=0)
+                     position[i][j]=0;
+                 else{
+
+                    if(((take[0][j]+take[1][j]+take[2][j])==4)&&(take[0][j]*take[1][j]*take[2][j])==0
+                    &&((take[0][j]-1)*(take[1][j]-1)*(take[2][j]-1))==-1)
+                          position[i][j]=position[i][j]+10000;
+                    if(((take[i][0]+take[i][1]+take[i][2])==4)&&(take[i][0]*take[i][1]*take[i][2])==0
+                    &&((take[i][0]-1)*(take[i][1]-1)*(take[i][2]-1))==-1)
+                          position[i][j]=position[i][j]+10000;
+
+
+                     if((i==0&&j==0)||(i==2&&j==2)||(i==1&&j==1)){
+                          if(((take[0][0]+take[1][1]+take[2][2])==4)&&(take[0][0]*take[1][1]*take[2][2])==0
+                          &&((take[0][0]-1)*(take[1][1]-1)*(take[2][2]-1))==-1)
+                          position[i][j]=position[i][j]+10000;
+                 }
+                  if((i==0&&j==2)||(i==2&&j==0)||(i==1&&j==1)){
+
+                        if(((take[0][2]+take[1][1]+take[2][0])==4)&&(take[0][2]*take[1][1]*take[2][0])==0
+                        &&((take[0][2]-1)*(take[1][1]-1)*(take[2][0]-1))==-1)
+                         position[i][j]=position[i][j]+10000;
+
+                        }
+                     }
+             }
+        }
+  }
+
+  function moveai(){
+        if(isGameover()==true){
+            return;
+        }
+
+        findPosition();
+        var mi=0,mj=0,temp=0;
+        for(var i=0;i<3;i++)
+           for(var j=0;j<3;j++){
+               if(position[i][j]>temp){
+                    temp=position[i][j];
+                    mi=i;
+                    mj=j;
+               }
+           }
+           take[mi][mj]=2;
+           num1=(mi*3+mj+1)+"";
+           document.getElementById(num1).value="O";
+           if(isGameover()==true){
+            return;
+        }
+  }
+
+  function isGameover(){
+        for(var i=0;i<3;i++){
+            if(take[i][0]==take[i][1]&&take[i][1]==take[i][2]&&take[i][0]!=0){
+                            if(take[i][0]==1){
+                                 window.alert("you win!");
+                                  return true;
+                            }
+                            else {
+                                  window.alert("you lose");
+                                  return true;
+                            }
+            }
+        }
+        for(var i=0;i<3;i++){
+            if(take[0][i]==take[1][i]&&take[1][i]==take[2][i]&&take[0][i]!=0){
+                            if(take[0][i]==1){
+                                 window.alert("you win!");
+                                 return true;
+                            }
+                            else {
+                                 window.alert("you lose");
+                                 return true;
+                            }
+            }
+        }
+        if(take[0][0]==take[1][1]&&take[1][1]==take[2][2]&&take[0][0]!=0){
+                            if(take[0][0]==1){
+                                 window.alert("you win!");
+                                 return true;
+                          }
+                            else {
+                                 window.alert("you lose");
+                                 return true;
+                          }
+        }
+        if(take[0][2]==take[1][1]&&take[2][0]==take[1][1]&&take[0][2]!=0){
+                            if(take[0][2]==1){
+                                 window.alert("you win!");
+                                 return true;
+                          }
+                            else {
+                                window.alert("you lose");
+                                return true;
+                          }
+        }
+
+  }
+
+  </script>
+
+</head>
+
+<body>
+
+  <div>
+    <table border=0px bordercolor="blue"width="500"height="500" style="font-size:50 " align=center>
+      <tr>
+        <td><input type="button" id="1"  value="  " onclick="Play(0,0)"/></td>
+        <td><input type="button" id="2"  value="  " onclick="Play(0,1)"/></td>
+        <td><input type="button" id="3"  value="  " onclick="Play(0,2)"/></td>
+      </tr>
+      <tr>
+        <td><input type="button" id="4"  value="  " onclick="Play(1,0)"/></td>
+        <td><input type="button" id="5"  value="  " onclick="Play(1,1)"/></td>
+        <td><input type="button" id="6"  value="  " onclick="Play(1,2)"/></td>
+      </tr>
+      <tr >
+        <td><input type="button" id="7"  value="  " onclick="Play(2,0)"/></td>
+        <td><input type="button" id="8"  value="  " onclick="Play(2,1)"/></td>
+        <td><input type="button" id="9"  value="  " onclick="Play(2,2)"/></td>
+      </tr>
+    </table>
+  </div>
+
+  <div>
+      <button id="restart" onclick="location.reload() ">Play Again!</button>
+
+  </div>
+
+
+</body>
+
+</html>
